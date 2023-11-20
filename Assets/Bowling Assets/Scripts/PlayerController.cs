@@ -24,10 +24,10 @@ public class PlayerController : MonoBehaviour
     {
         ballOffset = ballSpawnPoint.position - throwingArrow.position;
         
-        StartThrow();
+        //StartThrow();
     }
 
-    private void StartThrow()
+    public void StartThrow()
     {
         throwingArrowAnim.SetBool("Aiming", true);
         wasBallThrown = false;
@@ -67,14 +67,14 @@ public class PlayerController : MonoBehaviour
             //Moving with Constraints
             float movePosition = Input.GetAxis("Horizontal") * playerMovementSpeed * Time.deltaTime;
             throwingArrow.position = new Vector3(
-                Mathf.Clamp(throwingArrow.position.x + movePosition, arrowMinPosition, arrowMaxPosition),
+                Mathf.Clamp(throwingArrow.transform.position.x + movePosition, arrowMinPosition, arrowMaxPosition),
                 throwingArrow.position.y,
                 throwingArrow.position.z
 
                 );
 
             //Set Ball Position based on throwing direction position
-            selectedBall.position = throwingArrow.position + ballOffset;
+            selectedBall.transform.position = throwingArrow.position + ballOffset;
 
 
 
