@@ -19,22 +19,41 @@ public class Pin : MonoBehaviour
         startRotation = transform.rotation;
 
         pinRb = GetComponent<Rigidbody>();
+
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         //Check if pin has fallen
-        isFallen = Quaternion.Angle(startRotation, transform.localRotation) > pinFallAccuracy;
+        if(gameObject.activeSelf)
+        {
+            isFallen = Quaternion.Angle(startRotation, transform.localRotation) > pinFallAccuracy;
+        }
+        
 
     }
 
     public void ResetPin()
     {
+        gameObject.SetActive(true);
         pinRb.velocity = Vector3.zero;
+        pinRb.isKinematic = true;
+
         transform.position = startPosition;
         transform.rotation = startRotation;
+        isFallen = false;
+        pinRb.isKinematic = false;
 
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Pit"))
+        {
+            isFallen = true;
+        }
     }
 
 }
